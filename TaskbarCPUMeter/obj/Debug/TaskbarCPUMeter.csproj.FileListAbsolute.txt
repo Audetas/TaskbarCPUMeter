@@ -8,3 +8,13 @@ C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\Ta
 C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.pdb
 C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmMain.resources
 C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmOptions.resources
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\bin\Debug\TaskbarCPUMeter.exe.config
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.exe
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.pdb
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\bin\Debug\TaskbarCPUMeter.exe
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\bin\Debug\TaskbarCPUMeter.pdb
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.csprojResolveAssemblyReference.cache
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmMain.resources
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmOptions.resources
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.Properties.Resources.resources
+D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.csproj.GenerateResource.Cache

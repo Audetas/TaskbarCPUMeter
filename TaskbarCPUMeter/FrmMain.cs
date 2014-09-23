@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace TaskbarCPUMeter
 {
@@ -21,6 +22,7 @@ namespace TaskbarCPUMeter
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
+        Point NIgga;
         float TargetUsage = 0.0f;
         float ClockSpeed = 0.0f;
         ObjectQuery WQL;
@@ -28,6 +30,7 @@ namespace TaskbarCPUMeter
         PerformanceCounter CPUCounter;
 
         //Members used in drawing
+        int Offset = 0;
         Rectangle RectUsageFull;
         float _currentUsage = 0.10f;
         Font MainFont = new Font("Segoe UI", 10.0f, FontStyle.Bold);
@@ -37,6 +40,9 @@ namespace TaskbarCPUMeter
         public FrmMain()
         {
             InitializeComponent();
+
+            if (System.Environment.OSVersion.Version.ToString().StartsWith("6.1"))
+                Offset += 2;
 
             WQL = new ObjectQuery("SELECT * FROM Win32_Processor");
             Searcher = new ManagementObjectSearcher(WQL);
@@ -81,10 +87,11 @@ namespace TaskbarCPUMeter
 
                 MessageBox.Show("Thanks for using the Taskbar CPU Meter by Kronks. Rightclick the CPU Meter to adjust settings.", "Taskbar CPU Meter");
             }
-
-            this.Size = new Size(Config.Default.Width, taskbarSize.Height);
-            this.Location = new Point(Config.Default.PositionX, 0);
+            this.Size = new Size(Config.Default.Width, taskbarSize.Height - Offset);
+            this.Location = new Point(Config.Default.PositionX, 0 + Offset);
             RectUsageFull = new Rectangle(10, this.Height / 5 * 3, this.Width - 20, this.Height / 4);
+
+
         }
 
         private void FrmMain_Paint(object sender, PaintEventArgs e)
@@ -118,6 +125,42 @@ namespace TaskbarCPUMeter
             }
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            const UInt32 WM_NCHITTEST = 0x0084;
+            const UInt32 WM_MOUSEMOVE = 0x0200;
+
+            const UInt32 HTLEFT = 10;
+            const UInt32 HTRIGHT = 11;
+
+            const int RESIZE_HANDLE_SIZE = 10;
+            bool handled = false;
+            if (m.Msg == WM_NCHITTEST || m.Msg == WM_MOUSEMOVE)
+            {
+                Size formSize = this.Size;
+                Point screenPoint = new Point(m.LParam.ToInt32());
+                Point clientPoint = this.PointToClient(screenPoint);
+
+                Dictionary<UInt32, Rectangle> boxes = new Dictionary<UInt32, Rectangle>() {
+            {HTRIGHT, new Rectangle(formSize.Width - RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, formSize.Height - 2*RESIZE_HANDLE_SIZE)},
+            {HTLEFT, new Rectangle(0, RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, formSize.Height - 2*RESIZE_HANDLE_SIZE) }
+        };
+
+                foreach (KeyValuePair<UInt32, Rectangle> hitBox in boxes)
+                {
+                    if (hitBox.Value.Contains(clientPoint))
+                    {
+                        m.Result = (IntPtr)hitBox.Key;
+                        handled = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!handled)
+                base.WndProc(ref m);
+        }
+
         private void tmrRepaint_Tick(object sender, EventArgs e)
         {
             //Force the window to refresh itself constantly
@@ -138,5 +181,30 @@ namespace TaskbarCPUMeter
         {
             Application.Exit();
         }
+
+        private void FrmMain_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                this.Location = new Point(this.Location.X + (e.X - NIgga.X), 0 + Offset);
+        }
+
+        private void FrmMain_MouseUp(object sender, MouseEventArgs e)
+        {
+            Config.Default.PositionX = this.Location.X;
+            Config.Default.Save();
+        }
+
+        private void FrmMain_MouseDown(object sender, MouseEventArgs e)
+        {
+            NIgga = e.Location;
+        }
+
+        private void FrmMain_SizeChanged(object sender, EventArgs e)
+        {
+            Config.Default.Width = this.Width;
+            Config.Default.PositionX = this.Location.X;
+            ApplySettings();
+        }
+
     }
 }

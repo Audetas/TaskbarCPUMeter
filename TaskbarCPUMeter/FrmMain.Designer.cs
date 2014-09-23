@@ -32,8 +32,8 @@
             this.menuSettings = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.itemOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.itemCredits = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmrRepaint = new System.Windows.Forms.Timer(this.components);
             this.itemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmrRepaint = new System.Windows.Forms.Timer(this.components);
             this.menuSettings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,21 +44,28 @@
             this.itemCredits,
             this.itemExit});
             this.menuSettings.Name = "contextMenuStrip1";
-            this.menuSettings.Size = new System.Drawing.Size(264, 156);
+            this.menuSettings.Size = new System.Drawing.Size(160, 70);
             // 
             // itemOptions
             // 
             this.itemOptions.Name = "itemOptions";
-            this.itemOptions.Size = new System.Drawing.Size(263, 36);
+            this.itemOptions.Size = new System.Drawing.Size(159, 22);
             this.itemOptions.Text = "Options";
             this.itemOptions.Click += new System.EventHandler(this.itemOptions_Click);
             // 
             // itemCredits
             // 
             this.itemCredits.Name = "itemCredits";
-            this.itemCredits.Size = new System.Drawing.Size(263, 36);
+            this.itemCredits.Size = new System.Drawing.Size(159, 22);
             this.itemCredits.Text = "Made by Kronks";
             this.itemCredits.Click += new System.EventHandler(this.itemCredits_Click);
+            // 
+            // itemExit
+            // 
+            this.itemExit.Name = "itemExit";
+            this.itemExit.Size = new System.Drawing.Size(159, 22);
+            this.itemExit.Text = "Exit";
+            this.itemExit.Click += new System.EventHandler(this.itemExit_Click);
             // 
             // tmrRepaint
             // 
@@ -66,26 +73,24 @@
             this.tmrRepaint.Interval = 32;
             this.tmrRepaint.Tick += new System.EventHandler(this.tmrRepaint_Tick);
             // 
-            // itemExit
-            // 
-            this.itemExit.Name = "itemExit";
-            this.itemExit.Size = new System.Drawing.Size(263, 36);
-            this.itemExit.Text = "Exit";
-            this.itemExit.Click += new System.EventHandler(this.itemExit_Click);
-            // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(140, 100);
+            this.ClientSize = new System.Drawing.Size(70, 52);
             this.ContextMenuStrip = this.menuSettings;
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FrmMain";
             this.Text = "Form1";
             this.Shown += new System.EventHandler(this.FrmMain_Shown);
+            this.SizeChanged += new System.EventHandler(this.FrmMain_SizeChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmMain_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMain_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FrmMain_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FrmMain_MouseUp);
             this.menuSettings.ResumeLayout(false);
             this.ResumeLayout(false);
 
