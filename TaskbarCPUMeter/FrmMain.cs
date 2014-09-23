@@ -22,7 +22,8 @@ namespace TaskbarCPUMeter
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-        Point NIgga;
+        bool PointlessBool = false;
+        Point MouseDownPnt;
         float TargetUsage = 0.0f;
         float ClockSpeed = 0.0f;
         ObjectQuery WQL;
@@ -87,8 +88,8 @@ namespace TaskbarCPUMeter
 
                 MessageBox.Show("Thanks for using the Taskbar CPU Meter by Kronks. Rightclick the CPU Meter to adjust settings.", "Taskbar CPU Meter");
             }
-            this.Size = new Size(Config.Default.Width, taskbarSize.Height - Offset);
             this.Location = new Point(Config.Default.PositionX, 0 + Offset);
+            this.Size = new Size(Config.Default.Width, taskbarSize.Height - Offset);
             RectUsageFull = new Rectangle(10, this.Height / 5 * 3, this.Width - 20, this.Height / 4);
 
 
@@ -151,6 +152,7 @@ namespace TaskbarCPUMeter
                     if (hitBox.Value.Contains(clientPoint))
                     {
                         m.Result = (IntPtr)hitBox.Key;
+                        PointlessBool = true;
                         handled = true;
                         break;
                     }
@@ -160,6 +162,7 @@ namespace TaskbarCPUMeter
             if (!handled)
                 base.WndProc(ref m);
         }
+
 
         private void tmrRepaint_Tick(object sender, EventArgs e)
         {
@@ -185,7 +188,7 @@ namespace TaskbarCPUMeter
         private void FrmMain_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
-                this.Location = new Point(this.Location.X + (e.X - NIgga.X), 0 + Offset);
+                this.Location = new Point(this.Location.X + (e.X - MouseDownPnt.X), 0 + Offset);
         }
 
         private void FrmMain_MouseUp(object sender, MouseEventArgs e)
@@ -196,14 +199,23 @@ namespace TaskbarCPUMeter
 
         private void FrmMain_MouseDown(object sender, MouseEventArgs e)
         {
-            NIgga = e.Location;
+            MouseDownPnt = e.Location;
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Config.Default.Save();
         }
 
         private void FrmMain_SizeChanged(object sender, EventArgs e)
         {
-            Config.Default.Width = this.Width;
-            Config.Default.PositionX = this.Location.X;
-            ApplySettings();
+            if (PointlessBool)
+            {
+                Config.Default.Width = this.Width;
+                Config.Default.PositionX = this.Location.X;
+                Config.Default.Save();
+                ApplySettings();
+            }
         }
 
     }

@@ -85,6 +85,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FrmMain";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Shown += new System.EventHandler(this.FrmMain_Shown);
             this.SizeChanged += new System.EventHandler(this.FrmMain_SizeChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrmMain_Paint);
