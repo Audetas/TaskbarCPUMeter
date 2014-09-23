@@ -1,0 +1,10 @@
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\bin\Debug\TaskbarCPUMeter.exe.config
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\bin\Debug\TaskbarCPUMeter.exe
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\bin\Debug\TaskbarCPUMeter.pdb
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.csprojResolveAssemblyReference.cache
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.Properties.Resources.resources
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.csproj.GenerateResource.Cache
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.exe
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.pdb
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmMain.resources
+C:\Users\Alec\Google Drive\Projects\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmOptions.resources
