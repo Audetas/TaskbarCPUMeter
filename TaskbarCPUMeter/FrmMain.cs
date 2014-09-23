@@ -22,7 +22,7 @@ namespace TaskbarCPUMeter
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-        bool PointlessBool = false;
+        bool InitFinished = false;
         Point MouseDownPnt;
         float TargetUsage = 0.0f;
         float ClockSpeed = 0.0f;
@@ -126,6 +126,7 @@ namespace TaskbarCPUMeter
             }
         }
 
+        //Enable borderless form resizing
         protected override void WndProc(ref Message m)
         {
             const UInt32 WM_NCHITTEST = 0x0084;
@@ -142,17 +143,18 @@ namespace TaskbarCPUMeter
                 Point screenPoint = new Point(m.LParam.ToInt32());
                 Point clientPoint = this.PointToClient(screenPoint);
 
-                Dictionary<UInt32, Rectangle> boxes = new Dictionary<UInt32, Rectangle>() {
-            {HTRIGHT, new Rectangle(formSize.Width - RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, formSize.Height - 2*RESIZE_HANDLE_SIZE)},
-            {HTLEFT, new Rectangle(0, RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, formSize.Height - 2*RESIZE_HANDLE_SIZE) }
-        };
+                Dictionary<UInt32, Rectangle> boxes = new Dictionary<UInt32, Rectangle>() 
+                {
+                    {HTRIGHT, new Rectangle(formSize.Width - RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, formSize.Height - 2*RESIZE_HANDLE_SIZE)},
+                    {HTLEFT, new Rectangle(0, RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, formSize.Height - 2*RESIZE_HANDLE_SIZE) }
+                };
 
                 foreach (KeyValuePair<UInt32, Rectangle> hitBox in boxes)
                 {
                     if (hitBox.Value.Contains(clientPoint))
                     {
                         m.Result = (IntPtr)hitBox.Key;
-                        PointlessBool = true;
+                        InitFinished = true;
                         handled = true;
                         break;
                     }
@@ -209,7 +211,7 @@ namespace TaskbarCPUMeter
 
         private void FrmMain_SizeChanged(object sender, EventArgs e)
         {
-            if (PointlessBool)
+            if (InitFinished)
             {
                 Config.Default.Width = this.Width;
                 Config.Default.PositionX = this.Location.X;
