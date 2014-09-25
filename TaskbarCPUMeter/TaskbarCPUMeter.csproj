@@ -64,6 +64,7 @@
       <DependentUpon>FrmOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="Modes\IMode.cs" />
+    <Compile Include="Modes\ModeBattery.cs" />
     <Compile Include="Modes\ModeCPU.cs" />
     <Compile Include="Modes\ModeRAM.cs" />
     <Compile Include="Native.cs" />
