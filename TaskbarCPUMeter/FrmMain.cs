@@ -92,6 +92,16 @@ namespace TaskbarCPUMeter
             this.Size = new Size(Config.Default.Width, taskbarSize.Height - Offset);
             RectUsageFull = new Rectangle(10, this.Height / 5 * 3, this.Width - 20, this.Height / 4);
 
+            if(Config.Default.RotateViews)
+            {
+                tmrRotateViews.Interval = Config.Default.RotateViewsInterval;
+                tmrRotateViews.Enabled = true;
+            }
+
+        }
+
+        private void RotateView()
+        {
 
         }
 
@@ -218,6 +228,11 @@ namespace TaskbarCPUMeter
                 Config.Default.Save();
                 ApplySettings();
             }
+        }
+
+        private void tmrRotateViews_Tick(object sender, EventArgs e)
+        {
+            RotateView();
         }
 
     }
