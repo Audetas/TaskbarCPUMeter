@@ -36,7 +36,6 @@ namespace TaskbarCPUMeter.Modes
 
         public void Update(Form target)
         {
-            RectUsageFull = new Rectangle(10, target.Height / 5 * 3, target.Width - 20, target.Height / 4);
             //Update the Clock
             foreach (ManagementObject result in Searcher.Get())
                 ClockSpeed = (float)Math.Round(int.Parse(result["CurrentClockSpeed"].ToString()) / 1000.0f, 2);
@@ -47,6 +46,8 @@ namespace TaskbarCPUMeter.Modes
 
         public void Draw(Form target, Graphics g)
         {
+            RectUsageFull = new Rectangle(10, target.Height / 5 * 3, target.Width - 20, target.Height / 4);
+
             _currentUsage = (float)Math.Round(_currentUsage, 3);
             if (_currentUsage < TargetUsage)
                 _currentUsage += 0.005f;

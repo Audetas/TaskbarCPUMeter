@@ -10,24 +10,31 @@ using System.Windows.Forms;
 
 namespace TaskbarCPUMeter.Modes
 {
-    class ModeBattery : IMode
+    class ModeTemperature : IMode
     {
         float TargetUsage = 0.0f;
-        string TimeLeft = "";
+        string CPUTemp = "";
+        ManagementObjectSearcher searcher;
 
         Rectangle RectUsageFull;
-        float _currentUsage = 1.0f;
+        float _currentUsage = 0.30f;
         Font MainFont = new Font("Segoe UI", 10.0f, FontStyle.Bold);
         Brush MainBrush = new SolidBrush(Color.FromArgb(75, 0, 0, 0));
 
-        public void Start() { }
+        public void Start() 
+        {
+            searcher = new ManagementObjectSearcher(@"root\WMI", "SELECT * FROM MSAcpi_ThermalZoneTemperature");
+        }
 
         public void Update(Form target)
         {
-            TargetUsage = SystemInformation.PowerStatus.BatteryLifePercent;
-            TimeLeft = TimeSpan.FromSeconds(
-                SystemInformation.PowerStatus.BatteryLifeRemaining)
-                .ToString("h'h 'm'm'");
+            foreach (ManagementObject obj in searcher.Get())
+            {
+                Double temp = Convert.ToDouble(obj["CurrentTemperature"].ToString());
+                temp = (temp - 2732) / 10.0;
+                TargetUsage = (float)temp / 100.0f;
+                CPUTemp = "CPU: " + temp.ToString() + "c";
+            }
         }
 
         public void Draw(Form target, Graphics g)
@@ -53,19 +60,11 @@ namespace TaskbarCPUMeter.Modes
                     MainFont, Brushes.White,
                     new PointF(target.Width - TextRenderer.MeasureText(g, percentage, MainFont).Width, 5));
             }
-            //Draw the current time left
+            //Draw the current CPU clock speed
             if (Config.Default.ShowClock)
             {
-                if (SystemInformation.PowerStatus.BatteryChargeStatus == BatteryChargeStatus.Charging ||
-                    TimeLeft == "0h 0m")
-                    g.DrawString("Charging", MainFont, Brushes.White, new PointF(10, 5));
-                else if (SystemInformation.PowerStatus.BatteryChargeStatus == BatteryChargeStatus.Low ||
-                    SystemInformation.PowerStatus.BatteryChargeStatus == BatteryChargeStatus.Critical)
-                    g.DrawString(TimeLeft,
-                        MainFont, Brushes.Red, new PointF(10, 5));
-                else
-                    g.DrawString(TimeLeft,
-                        MainFont, Brushes.White, new PointF(10, 5));
+                g.DrawString(CPUTemp,
+                    MainFont, Brushes.White, new PointF(10, 5));
             }
         }
     }

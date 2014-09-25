@@ -48,7 +48,7 @@ namespace TaskbarCPUMeter
             SetParent(this.Handle, taskbar);
 
             ApplySettings();
-            SwitchMode(new ModeBattery());
+            SwitchMode(new ModeTemperature());
         }
 
         public void ApplySettings()

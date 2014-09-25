@@ -67,6 +67,7 @@
     <Compile Include="Modes\ModeBattery.cs" />
     <Compile Include="Modes\ModeCPU.cs" />
     <Compile Include="Modes\ModeRAM.cs" />
+    <Compile Include="Modes\ModeTemperature.cs" />
     <Compile Include="Native.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
