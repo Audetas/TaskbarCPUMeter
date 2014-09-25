@@ -31,9 +31,7 @@ namespace TaskbarCPUMeter
         public FrmMain()
         {
             InitializeComponent();
-            CurrentMode = new ModeCPU();
 
-            //CurrentMode.Update(this);
             if (System.Environment.OSVersion.Version.ToString().StartsWith("6.1"))
                 Offset += 2;
         }
@@ -50,7 +48,7 @@ namespace TaskbarCPUMeter
             SetParent(this.Handle, taskbar);
 
             ApplySettings();
-            CurrentMode.Start();
+            SwitchMode(new ModeRAM());
         }
 
         public void ApplySettings()

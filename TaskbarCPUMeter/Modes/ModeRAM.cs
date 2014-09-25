@@ -10,39 +10,28 @@ using System.Windows.Forms;
 
 namespace TaskbarCPUMeter.Modes
 {
-    class ModeCPU : IMode
+    class ModeRAM : IMode
     {
         float TargetUsage = 0.0f;
-        float ClockSpeed = 0.0f;
-        ObjectQuery WQL;
-        ManagementObjectSearcher Searcher;
-        PerformanceCounter CPUCounter;
+        int Used = 0;
 
         Rectangle RectUsageFull;
-        float _currentUsage = 0.10f;
+        float _currentUsage = 0.30f;
         Font MainFont = new Font("Segoe UI", 10.0f, FontStyle.Bold);
         Brush MainBrush = new SolidBrush(Color.FromArgb(75, 0, 0, 0));
 
-        public void Start()
-        {
-            WQL = new ObjectQuery("SELECT * FROM Win32_Processor");
-            Searcher = new ManagementObjectSearcher(WQL);
-            CPUCounter = new PerformanceCounter();
-
-            CPUCounter.CategoryName = "Processor";
-            CPUCounter.CounterName = "% Processor Time";
-            CPUCounter.InstanceName = "_Total";
-        }
+        public void Start() { }
 
         public void Update(Form target)
         {
             RectUsageFull = new Rectangle(10, target.Height / 5 * 3, target.Width - 20, target.Height / 4);
-            //Update the Clock
-            foreach (ManagementObject result in Searcher.Get())
-                ClockSpeed = (float)Math.Round(int.Parse(result["CurrentClockSpeed"].ToString()) / 1000.0f, 2);
-            
-            //Update the usage
-            TargetUsage = (float)Math.Round(CPUCounter.NextValue() / 100.0f, 2);
+
+            Int64 available = Native.GetPhysicalAvailableMemoryInMiB();
+            Int64 total = Native.GetTotalMemoryInMiB();
+            decimal percentFree = ((decimal)available / (decimal)total) * 100;
+            decimal percentOccupied = 100 - percentFree;
+            TargetUsage = (float)Math.Round(percentOccupied / 100, 2);
+            Used = (int)(total - available);
         }
 
         public void Draw(Form target, Graphics g)
@@ -61,7 +50,7 @@ namespace TaskbarCPUMeter.Modes
             //Usage Percentage
             if (Config.Default.ShowPercentage)
             {
-                string percentage = Math.Round(TargetUsage, 2) * 100 + "%";
+                string percentage = Math.Round(TargetUsage * 100, 0)  + "%";
                 g.DrawString(percentage,
                     MainFont, Brushes.White,
                     new PointF(target.Width - TextRenderer.MeasureText(g, percentage, MainFont).Width, 5));
@@ -69,7 +58,7 @@ namespace TaskbarCPUMeter.Modes
             //Draw the current CPU clock speed
             if (Config.Default.ShowClock)
             {
-                g.DrawString(ClockSpeed + "GHz",
+                g.DrawString(Used + "MB",
                     MainFont, Brushes.White, new PointF(10, 5));
             }
         }
