@@ -34,6 +34,7 @@
             this.itemCredits = new System.Windows.Forms.ToolStripMenuItem();
             this.itemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tmrRepaint = new System.Windows.Forms.Timer(this.components);
+            this.tmrRotateViews = new System.Windows.Forms.Timer(this.components);
             this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
             this.menuSettings.SuspendLayout();
             this.SuspendLayout();
@@ -80,6 +81,11 @@
             this.tmrUpdate.Interval = 1000;
             this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
             // 
+            // tmrRotateViews
+            // 
+            this.tmrRotateViews.Interval = 100000;
+            this.tmrRotateViews.Tick += new System.EventHandler(this.tmrRotateViews_Tick);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -112,6 +118,7 @@
         private System.Windows.Forms.Timer tmrRepaint;
         private System.Windows.Forms.ToolStripMenuItem itemExit;
         private System.Windows.Forms.Timer tmrUpdate;
+        private System.Windows.Forms.Timer tmrRotateViews;
 
 
 
