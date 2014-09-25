@@ -12,7 +12,7 @@ namespace TaskbarCPUMeter.Modes
 {
     class ModeCPU : IMode
     {
-        float TargetUsage = 0.0f;
+        float TargetUsage = 0.1f;
         float ClockSpeed = 0.0f;
         ObjectQuery WQL;
         ManagementObjectSearcher Searcher;

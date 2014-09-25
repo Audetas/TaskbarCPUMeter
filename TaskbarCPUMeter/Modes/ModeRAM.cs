@@ -12,8 +12,8 @@ namespace TaskbarCPUMeter.Modes
 {
     class ModeRAM : IMode
     {
-        float TargetUsage = 0.0f;
-        int Used = 0;
+        float TargetUsage = 0.3f;
+        int Used = 3000;
 
         Rectangle RectUsageFull;
         float _currentUsage = 0.30f;

@@ -27,6 +27,7 @@ namespace TaskbarCPUMeter
         int Offset = 0;
         Point MouseDownPnt;
         IMode CurrentMode;
+        IMode[] ModeRotation;
 
         public FrmMain()
         {
@@ -48,7 +49,7 @@ namespace TaskbarCPUMeter
             SetParent(this.Handle, taskbar);
 
             ApplySettings();
-            SwitchMode(new ModeTemperature());
+            itemCycle_Click(new ToolStripMenuItem(Config.Default.DefaultMode), null);
         }
 
         public void ApplySettings()
@@ -73,11 +74,6 @@ namespace TaskbarCPUMeter
                 tmrRotateViews.Interval = Config.Default.RotateViewsInterval;
                 tmrRotateViews.Enabled = true;
             }
-
-        }
-
-        private void RotateView()
-        {
 
         }
 
@@ -189,7 +185,26 @@ namespace TaskbarCPUMeter
 
         private void tmrRotateViews_Tick(object sender, EventArgs e)
         {
-            RotateView();
+
+        }
+
+        private void itemCycle_Click(object sender, EventArgs e)
+        {
+            switch (((ToolStripMenuItem)sender).Text)
+            {
+                case "Cycle":
+                    break;
+                case "CPU Statistics":
+                    SwitchMode(new ModeCPU()); break;
+                case "CPU Temperature":
+                    SwitchMode(new ModeTemperature()); break;
+                case "RAM Statistics":
+                    SwitchMode(new ModeRAM()); break;
+                case "Battery Statistics":
+                    SwitchMode(new ModeBattery()); break;
+                case "Battery Statistics 2":
+                    SwitchMode(new ModeBattery2()); break;
+            }
         }
     }
 }

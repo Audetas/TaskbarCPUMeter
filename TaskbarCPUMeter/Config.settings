@@ -23,5 +23,8 @@
     <Setting Name="RotateViewsInterval" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20</Value>
     </Setting>
+    <Setting Name="DefaultMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CPU Statistics</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

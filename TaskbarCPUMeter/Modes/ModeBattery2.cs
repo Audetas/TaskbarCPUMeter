@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace TaskbarCPUMeter.Modes
 {
-    class ModeBattery : IMode
+    class ModeBattery2 : IMode
     {
         float TargetUsage = 1.0f;
         string TimeLeft = "0h 0m";
@@ -32,7 +32,7 @@ namespace TaskbarCPUMeter.Modes
 
         public void Draw(Form target, Graphics g)
         {
-            RectUsageFull = new Rectangle(10, target.Height / 5 * 3, target.Width - 20, target.Height / 4);
+            RectUsageFull = new Rectangle(10, 10, target.Width - 30, target.Height - 20);
 
             _currentUsage = (float)Math.Round(_currentUsage, 3);
             if (_currentUsage < TargetUsage)
@@ -42,30 +42,30 @@ namespace TaskbarCPUMeter.Modes
 
             g.FillRectangle(MainBrush, RectUsageFull);
             //Usage
-            g.FillRectangle(Brushes.White,
+            g.DrawRectangle(Pens.White,
                     new Rectangle(RectUsageFull.X, RectUsageFull.Y,
-                        (int)(RectUsageFull.Width * _currentUsage), RectUsageFull.Height));
-            //Usage Percentage
-            if (Config.Default.ShowPercentage)
-            {
-                string percentage = Math.Round(TargetUsage * 100, 0) + "%";
-                g.DrawString(percentage,
-                    MainFont, Brushes.White,
-                    new PointF(target.Width - TextRenderer.MeasureText(g, percentage, MainFont).Width, 5));
-            }
+                        (int)(RectUsageFull.Width), RectUsageFull.Height));
+
+            g.DrawRectangle(Pens.White,
+                    new Rectangle(target.Width - 20, target.Height / 3,
+                        10, target.Height / 3));
+
+            g.FillRectangle(Brushes.White,
+                    new Rectangle(RectUsageFull.X + 4, RectUsageFull.Y + 4,
+                        (int)(RectUsageFull.Width * _currentUsage) - 8, RectUsageFull.Height - 8));
             //Draw the current time left
             if (Config.Default.ShowClock)
             {
                 if (SystemInformation.PowerStatus.BatteryChargeStatus == BatteryChargeStatus.Charging ||
                     TimeLeft == "0h 0m")
-                    g.DrawString("Charging", MainFont, Brushes.White, new PointF(10, 5));
+                    g.DrawString("Charging", MainFont, Brushes.Black, new PointF(15, 15));
                 else if (SystemInformation.PowerStatus.BatteryChargeStatus == BatteryChargeStatus.Low ||
                     SystemInformation.PowerStatus.BatteryChargeStatus == BatteryChargeStatus.Critical)
                     g.DrawString(TimeLeft,
-                        MainFont, Brushes.Red, new PointF(10, 5));
+                        MainFont, Brushes.Red, new PointF(15, 15));
                 else
                     g.DrawString(TimeLeft,
-                        MainFont, Brushes.White, new PointF(10, 5));
+                        MainFont, Brushes.Black, new PointF(15, 15));
             }
         }
     }

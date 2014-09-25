@@ -12,12 +12,12 @@ namespace TaskbarCPUMeter.Modes
 {
     class ModeTemperature : IMode
     {
-        float TargetUsage = 0.0f;
-        string CPUTemp = "";
+        float TargetUsage = 0.5f;
+        string CPUTemp = "0c";
         ManagementObjectSearcher searcher;
 
         Rectangle RectUsageFull;
-        float _currentUsage = 0.30f;
+        float _currentUsage = 0.50f;
         Font MainFont = new Font("Segoe UI", 10.0f, FontStyle.Bold);
         Brush MainBrush = new SolidBrush(Color.FromArgb(75, 0, 0, 0));
 

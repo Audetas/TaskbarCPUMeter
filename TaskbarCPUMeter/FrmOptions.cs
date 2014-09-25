@@ -25,7 +25,7 @@ namespace TaskbarCPUMeter
             this.chkShowUsage.Checked = Config.Default.ShowPercentage;
             this.NUDRotateViews.Value = Config.Default.RotateViewsInterval;
             this.chkRotateViews.Checked = Config.Default.RotateViews;
-
+            this.tbxDefaultMode.Text = Config.Default.DefaultMode;
         }
 
         private void tbxPosition_TextChanged(object sender, EventArgs e)
@@ -69,7 +69,6 @@ namespace TaskbarCPUMeter
 
         private void chkRotateViews_CheckedChanged(object sender, EventArgs e)
         {
-            label3.Enabled = chkRotateViews.Checked;
             label4.Enabled = chkRotateViews.Checked;
             NUDRotateViews.Enabled = chkRotateViews.Checked;
             Config.Default.RotateViews = chkRotateViews.Checked;
@@ -80,6 +79,12 @@ namespace TaskbarCPUMeter
         private void NUDRotateViews_ValueChanged(object sender, EventArgs e)
         {
             Config.Default.RotateViewsInterval = (int)NUDRotateViews.Value;
+            Config.Default.Save();
+        }
+
+        private void tbxDefaultMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config.Default.DefaultMode = tbxDefaultMode.Text;
             Config.Default.Save();
         }
     }
