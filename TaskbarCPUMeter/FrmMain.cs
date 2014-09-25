@@ -24,48 +24,24 @@ namespace TaskbarCPUMeter
         static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
         bool InitFinished = false;
-        Point MouseDownPnt;
-        float TargetUsage = 0.0f;
-        float ClockSpeed = 0.0f;
-        ObjectQuery WQL;
-        ManagementObjectSearcher Searcher;
-        PerformanceCounter CPUCounter;
-
-        //Members used in drawing
         int Offset = 0;
-        Rectangle RectUsageFull;
-        float _currentUsage = 0.10f;
-        Font MainFont = new Font("Segoe UI", 10.0f, FontStyle.Bold);
-        Font SecondaryFont = new Font("Segoe UI", 7.0f);
-        Brush MainBrush = new SolidBrush(Color.FromArgb(75, 0, 0, 0));
+        Point MouseDownPnt;
         IMode CurrentMode;
 
         public FrmMain()
         {
             InitializeComponent();
-
+            CurrentMode = new ModeCPU();
+            
+            //CurrentMode.Update(this);
             if (System.Environment.OSVersion.Version.ToString().StartsWith("6.1"))
                 Offset += 2;
+        }
 
-            WQL = new ObjectQuery("SELECT * FROM Win32_Processor");
-            Searcher = new ManagementObjectSearcher(WQL);
-            CPUCounter = new PerformanceCounter();
-
-            CPUCounter.CategoryName = "Processor";
-            CPUCounter.CounterName = "% Processor Time";
-            CPUCounter.InstanceName = "_Total";
-
-            Task.Run(() =>
-                {
-                    while (!this.IsDisposed)
-                    {
-                        //Update the Clock
-                        foreach (ManagementObject result in Searcher.Get())
-                            ClockSpeed = (float)Math.Round(int.Parse(result["CurrentClockSpeed"].ToString()) / 1000.0f, 2);
-                        //Update the usage
-                        TargetUsage = (float)Math.Round(CPUCounter.NextValue() / 100.0f, 2);
-                    }
-                });
+        public void SwitchMode(IMode mode)
+        {
+            CurrentMode = mode;
+            CurrentMode.Start();
         }
 
         private void FrmMain_Shown(object sender, EventArgs e)
@@ -74,6 +50,7 @@ namespace TaskbarCPUMeter
             SetParent(this.Handle, taskbar);
 
             ApplySettings();
+            CurrentMode.Start();
         }
 
         public void ApplySettings()
@@ -92,52 +69,24 @@ namespace TaskbarCPUMeter
             }
             this.Location = new Point(Config.Default.PositionX, 0 + Offset);
             this.Size = new Size(Config.Default.Width, taskbarSize.Height - Offset);
-            RectUsageFull = new Rectangle(10, this.Height / 5 * 3, this.Width - 20, this.Height / 4);
-
-
         }
 
         private void FrmMain_Paint(object sender, PaintEventArgs e)
         {
-            //Draw a progress bar of the current CPU usage
-            _currentUsage = (float)Math.Round(_currentUsage, 3);
-            if (_currentUsage < TargetUsage)
-                _currentUsage += 0.005f;
-            else if (_currentUsage > TargetUsage)
-                _currentUsage -= 0.005f;
-
-            //Background
-            e.Graphics.FillRectangle(MainBrush, RectUsageFull);
-            //Usage
-            e.Graphics.FillRectangle(Brushes.White,
-                    new Rectangle(RectUsageFull.X, RectUsageFull.Y,
-                        (int)(RectUsageFull.Width * _currentUsage), RectUsageFull.Height));
-            //Usage Percentage
-            if (Config.Default.ShowPercentage)
-            {
-                string percentage = Math.Round(TargetUsage, 2) * 100 + "%";
-                e.Graphics.DrawString(percentage,
-                    MainFont, Brushes.White,
-                    new PointF(this.Width - TextRenderer.MeasureText(e.Graphics, percentage, MainFont).Width, 5));
-            }
-            //Draw the current CPU clock speed
-            if (Config.Default.ShowClock)
-            {
-                e.Graphics.DrawString(ClockSpeed + "GHz",
-                    MainFont, Brushes.White, new PointF(10, 5));
-            }
+            CurrentMode.Draw(this, e.Graphics);
         }
 
         //Enable borderless form resizing
+        const UInt32 WM_NCHITTEST = 0x0084;
+        const UInt32 WM_MOUSEMOVE = 0x0200;
+
+        const UInt32 HTLEFT = 10;
+        const UInt32 HTRIGHT = 11;
+
+        const int RESIZE_HANDLE_SIZE = 10;
+
         protected override void WndProc(ref Message m)
         {
-            const UInt32 WM_NCHITTEST = 0x0084;
-            const UInt32 WM_MOUSEMOVE = 0x0200;
-
-            const UInt32 HTLEFT = 10;
-            const UInt32 HTRIGHT = 11;
-
-            const int RESIZE_HANDLE_SIZE = 10;
             bool handled = false;
             if (m.Msg == WM_NCHITTEST || m.Msg == WM_MOUSEMOVE)
             {
@@ -167,6 +116,14 @@ namespace TaskbarCPUMeter
                 base.WndProc(ref m);
         }
 
+        private async void tmrUpdate_Tick(object sender, EventArgs e)
+        {
+            //Async update the current modes variables
+            await Task.Run(() =>
+            {
+                CurrentMode.Update(this);
+            }); 
+        }
 
         private void tmrRepaint_Tick(object sender, EventArgs e)
         {
@@ -221,6 +178,5 @@ namespace TaskbarCPUMeter
                 ApplySettings();
             }
         }
-
     }
 }
