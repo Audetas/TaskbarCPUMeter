@@ -39,7 +39,7 @@ namespace TaskbarCPUMeter
         }
 
         public void SwitchMode(IMode mode)
-                    {
+        {
             CurrentMode = mode;
             CurrentMode.Start();
         }
@@ -69,8 +69,7 @@ namespace TaskbarCPUMeter
             }
             this.Location = new Point(Config.Default.PositionX, 0 + Offset);
             this.Size = new Size(Config.Default.Width, taskbarSize.Height - Offset);
-            RectUsageFull = new Rectangle(10, this.Height / 5 * 3, this.Width - 20, this.Height / 4);
-
+            
             if(Config.Default.RotateViews)
             {
                 tmrRotateViews.Interval = Config.Default.RotateViewsInterval;
@@ -87,16 +86,14 @@ namespace TaskbarCPUMeter
         private void FrmMain_Paint(object sender, PaintEventArgs e)
         {
             CurrentMode.Draw(this, e.Graphics);
-            }
+        }
 
         //Enable borderless form resizing
-            const UInt32 WM_NCHITTEST = 0x0084;
-            const UInt32 WM_MOUSEMOVE = 0x0200;
-
-            const UInt32 HTLEFT = 10;
-            const UInt32 HTRIGHT = 11;
-
-            const int RESIZE_HANDLE_SIZE = 10;
+        const UInt32 WM_NCHITTEST = 0x0084;
+        const UInt32 WM_MOUSEMOVE = 0x0200;
+        const UInt32 HTLEFT = 10;
+        const UInt32 HTRIGHT = 11;
+        const int RESIZE_HANDLE_SIZE = 10;
 
         protected override void WndProc(ref Message m)
         {
@@ -196,6 +193,5 @@ namespace TaskbarCPUMeter
         {
             RotateView();
         }
-
     }
 }
