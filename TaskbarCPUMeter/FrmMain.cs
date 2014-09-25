@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using TaskbarCPUMeter.Modes;
 
 namespace TaskbarCPUMeter
 {
@@ -37,6 +38,7 @@ namespace TaskbarCPUMeter
         Font MainFont = new Font("Segoe UI", 10.0f, FontStyle.Bold);
         Font SecondaryFont = new Font("Segoe UI", 7.0f);
         Brush MainBrush = new SolidBrush(Color.FromArgb(75, 0, 0, 0));
+        IMode CurrentMode;
 
         public FrmMain()
         {
