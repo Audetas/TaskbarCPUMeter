@@ -18,3 +18,13 @@ D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmMain.reso
 D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmOptions.resources
 D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.Properties.Resources.resources
 D:\GitHub\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.csproj.GenerateResource.Cache
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\bin\Debug\TaskbarCPUMeter.exe.config
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.exe
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.pdb
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\bin\Debug\TaskbarCPUMeter.exe
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\bin\Debug\TaskbarCPUMeter.pdb
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.csprojResolveAssemblyReference.cache
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmMain.resources
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.FrmOptions.resources
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.Properties.Resources.resources
+D:\Documents\IT\Projects\Git\TaskbarCPUMeter\TaskbarCPUMeter\obj\Debug\TaskbarCPUMeter.csproj.GenerateResource.Cache
